@@ -53,5 +53,5 @@ This code exports an Express Router that defines two routes:
     in the MongoDB database (via the Post model), and returns the created post data in a JSON response with success status code (200). 
     In case of an error, a failure status code (500) and a message are returned.
 
-This router uses environment variables (from a .env file) to configure the Cloudinary instance.
+This router uses environment variables (from a .env file) to configure the Cloudinary instances.
 */
