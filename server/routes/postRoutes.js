@@ -41,3 +41,17 @@ router.route('/').post(async (req, res) => {
 });
 
 export default router;
+
+/*
+CODE EXPLANATION: 
+This code exports an Express Router that defines two routes:
+
+    GET /: Queries all posts from the MongoDB database (via the Post model) and returns the data in a JSON 
+    response with success status code (200). In case of an error, a failure status code (500) and a message are returned.
+
+    POST /: Accepts data (name, prompt, photo) from a request body, uploads the photo to Cloudinary, creates a new post 
+    in the MongoDB database (via the Post model), and returns the created post data in a JSON response with success status code (200). 
+    In case of an error, a failure status code (500) and a message are returned.
+
+This router uses environment variables (from a .env file) to configure the Cloudinary instances.
+*/
