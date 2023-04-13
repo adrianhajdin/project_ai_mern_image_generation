@@ -1,0 +1,28 @@
+# Version of Docker-compose
+version: '3.9'
+services:
+  # Add the node-js service
+  node:
+  # Location to the node.js dockerfile
+    build: 
+      context: ./server
+        # Name of the dockerfile
+      dockerfile: Dockerfile
+    container_name: backend-container
+    ports:
+       # Host port:Container port
+      - '8080:8080'
+    volumes:
+      # Bind-mounts configuration
+      - ./server:/app
+  react:
+  # Location to the react.js dockerfile
+    build: 
+      context: ./client
+        # Name of the dockerfile
+      dockerfile: Dockerfile
+    container_name: react-container
+    ports:
+     # Host port:Container port
+      - '5173:5173'
+    stdin_open: true
