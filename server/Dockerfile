@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 #Exposing the container to run on this port 3000
-EXPOSE 8080
+EXPOSE 8000
 
 #Command to start the Docker container for the frontend React.js application
 CMD ["npm", "start"]
