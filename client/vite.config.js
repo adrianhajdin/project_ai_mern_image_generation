@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api":
-        "https://nginx-ingress-cgqhbdtt998c97mfukmg.apps.playground.napptive.dev",
+        "https://nginx-ingress-cgokjjbh51taq9hpjjjg.apps.hackathon.napptive.dev/",
     },
   },
   plugins: [react()],
