@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { preview } from '../assets';
-import { getRandomPrompt } from '../utils';
-import { FormField, Loader } from '../components';
+import { preview } from "../assets";
+import { getRandomPrompt } from "../utils";
+import { FormField, Loader } from "../components";
 
 const CreatePost = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: '',
-    prompt: '',
-    photo: '',
+    name: "",
+    prompt: "",
+    photo: "",
   });
 
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
@@ -28,16 +29,16 @@ const CreatePost = () => {
     if (form.prompt) {
       try {
         setGeneratingImg(true);
-        const response = await fetch('https://dalle-arbb.onrender.com/api/v1/dalle', {
-          method: 'POST',
+        const response = await fetch("/api/v1/dalle", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             prompt: form.prompt,
           }),
         });
-
+        //console.log(response);
         const data = await response.json();
         setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
       } catch (err) {
@@ -46,34 +47,38 @@ const CreatePost = () => {
         setGeneratingImg(false);
       }
     } else {
-      alert('Please provide proper prompt');
+      alert("Please provide proper prompt");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    //console.log(form.prompt, form.photo);
     if (form.prompt && form.photo) {
       setLoading(true);
       try {
-        const response = await fetch('https://dalle-arbb.onrender.com/api/v1/post', {
-          method: 'POST',
+        const response = await fetch("/api/v1/post", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...form }),
         });
-
+        console.log(response);
         await response.json();
-        alert('Success');
-        navigate('/');
+        if (response.status != 200) {
+          alert("error!!");
+        } else {
+          alert("Success");
+        }
+        navigate("/");
       } catch (err) {
         alert(err);
       } finally {
         setLoading(false);
       }
     } else {
-      alert('Please generate an image with proper details');
+      alert("Please generate an image with proper details");
     }
   };
 
@@ -81,10 +86,13 @@ const CreatePost = () => {
     <section className="max-w-7xl mx-auto">
       <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Create</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Generate an imaginative image through DALL-E AI and share it with the community</p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">
+          Generate an imaginative image through DALL-E AI and share it with the
+          community
+        </p>
       </div>
 
-      <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+      <form className="mt-16 max-w-3xl">
         <div className="flex flex-col gap-5">
           <FormField
             labelName="Your Name"
@@ -107,7 +115,7 @@ const CreatePost = () => {
           />
 
           <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center">
-            { form.photo ? (
+            {form.photo ? (
               <img
                 src={form.photo}
                 alt={form.prompt}
@@ -135,17 +143,20 @@ const CreatePost = () => {
             onClick={generateImage}
             className=" text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
-            {generatingImg ? 'Generating...' : 'Generate'}
+            {generatingImg ? "Generating..." : "Generate"}
           </button>
         </div>
 
         <div className="mt-10">
-          <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p>
+          <p className="mt-2 text-[#666e75] text-[14px]">
+            ** Once you have created the image you want, you can share it with
+            others in the community **
+          </p>
           <button
-            type="submit"
+            onClick={handleSubmit}
             className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
-            {loading ? 'Sharing...' : 'Share with the Community'}
+            {loading ? "Sharing..." : "Share with the Community"}
           </button>
         </div>
       </form>
