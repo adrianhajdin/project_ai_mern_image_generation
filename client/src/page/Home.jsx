@@ -43,7 +43,7 @@ const Home = () => {
       setLoading(false);
     }
   };
-
+//DONT FORGET:  you need to call fetchPosts function in useEffect so that it runs after the component has mounted and updates the state with the API response. This will make the images visible in your landing page.
   useEffect(() => {
     fetchPosts();
   }, []);
